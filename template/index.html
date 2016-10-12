@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>    
+    <meta charset="utf-8" /> 
+    <title>じゃんけんサーバ</title>
+    <script type="text/javascript"src="./client.js"></script>
+    <script type="text/javascript"src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+  </head>
+  <body>
+      <p>じゃんけん勝負だ好きな打ち手を選べ!!</p>
+      <form action="/" method="post">
+        <div>
+        <input type="radio" name="C_uchite" value="0" checked="checked" id="gu">
+        <label for="gu">グー</label>
+        <input type="radio" name="C_uchite" value="1" id="tyoki">
+        <label for="tyoki">チョキ</label>
+        <input type="radio" name="C_uchite" value="2" id="pa">
+        <label for="pa">パー</label>
+        </div>
+        <div>
+        <input type="submit" value="これで決定！">
+        </div>
+        <div>
+        <input type="reset" value="やっぱ変える！">
+         </div>
+      </form>
+  </body>
+</html>
