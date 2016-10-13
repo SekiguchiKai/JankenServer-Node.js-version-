@@ -1,3 +1,4 @@
+
 //webサーバを立てる
 /*
 作成するもの
@@ -21,7 +22,6 @@
  →webApp.jsにリクエストを送信し、処理させる
  ⑤webApp.jsから処理結果を受け取る（データ）
  ⑥クライアントへ処理結果（データ）を送信する
-
  */
 
 
@@ -68,8 +68,11 @@ if(req.method=='POST') {
            });
            req.on('end', function(){
                var formContents = qs.parse(body)
+            
+               //オブジェクトの値（ここでいうpostの値を取り出す）
+            var stContents = parseInt(formContents.C_uchite)
 
-               console.log(formContents)//+ 'POSTのリクエストが届きました');
+               console.log(stContents)//+ 'POSTのリクエストが届きました');
            })
 
            
@@ -93,4 +96,3 @@ if(req.method=='GET') {
     
 server.listen(8080); //指定されたポート(8080)でコネクションの受け入れを開始する
 console.log('Server running at http://localhost:8080/'); //サーバが正常に起動していることを確認するため
-
