@@ -31,6 +31,11 @@ var fs = require('fs')
 var url = require('url');
 var server = http.createServer();
 var request = require('request');
+var qs = require('querystring');
+
+
+
+
 
     /*エラーの場合とそうでない時の条件を書く*/
 server.on('request', function (req, res) {
@@ -52,7 +57,40 @@ server.on('request', function (req, res) {
         res.end("HTML file has already sent to browser");
     });
 
+    //クライアントからのリクエストの判断
+
+if(req.method=='POST') {
+           var body='';
+           
+           //dataにリクエストのボディが届く
+           req.on('data', function (data) {
+               body +=data;
+           });
+           req.on('end', function(){
+               var formContents = qs.parse(body)
+
+               console.log(formContents)//+ 'POSTのリクエストが届きました');
+           })
+
+           
+};
+
+if(req.method=='GET') {
+           var body='';
+           req.on('data', function (data) {
+               body +=data;
+           });
+
+           console.log(body + 'GETのリクエストが届きました');
+};
+
+
+
+
+
+
 });
     
 server.listen(8080); //指定されたポート(8080)でコネクションの受け入れを開始する
 console.log('Server running at http://localhost:8080/'); //サーバが正常に起動していることを確認するため
+
