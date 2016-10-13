@@ -75,19 +75,38 @@ server.on('request', function (req, res) {
             //乱数を発生させる
             var serverUchite = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
             //アルゴリズム
+            
+             //オブジェクト作成
+            var objResult ={};
+        
+            
+            
+            
             if ((clientUchite == 0 && serverUchite === 1) || (clientUchite === 1 && serverUchite === 2) || (clientUchite === 2 && serverUchite === 0)) {
-                console.log("君の勝ちだ！")
+               objResult.result = "君の勝ちだ！";
             }
             else if ((clientUchite === 1 && serverUchite === 0) || (clientUchite === 2 && serverUchite === 1) || (clientUchite === 0 && serverUchite === 2)) {
-                console.log("君の負けだ！");
+               objResult.result = "君の負けだ！";
             }
             else if (clientUchite === serverUchite) {
-                console.log("引き分けだ！");
+                objResult.result = "引き分けだ！";
             }
-            else {
-                console.log("以上！");
-            }
+            
+            //実験で
+            console.log(objResult);
+            
+         //JSONを作成する       
+        var resultJson = JSON.stringify(objResult);
+        console.log(resultJson);
+
         })
+       
+        
+
+        /*JSONを送る
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        //res.end(resultJson);*/
+        
     };
     if (req.method == 'GET') {
         var body = '';
