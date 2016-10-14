@@ -99,13 +99,13 @@ server.on('request', function (req, res) {
         var resultJson = JSON.stringify(objResult);
         console.log(resultJson);
 
+                //JSONを送る
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(resultJson);
+
+
         })
        
-        
-
-        /*JSONを送る
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        //res.end(resultJson);*/
         
     };
     if (req.method == 'GET') {

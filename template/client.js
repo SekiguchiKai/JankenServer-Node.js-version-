@@ -19,12 +19,22 @@ $.getJSON(
 //クリックされたら、
 $("#showResult").click(function () {
   //JSONをGetする
-$.getJSON("resultJson", function(json){
+$.getJSON("webServer.js", function(json){
     var result = json.result;
 //HTMLを書き換える
-    $("#result").append($(result));  //もしかしたら、<pのid>でこっちはdivかも
-    $('#shouhai').show();
-  }
-);
 
+//ユーザーの打ち手を表示
+$("submit").click(function () {
+  $("#clientUchite").append($(uchiteForm.radio.value));
+  $('#showClient').show();
+  
+
+//サーバ側の打ち手を表示
+    $("#severUchite").append($(result));  //もしかしたら、<pのid>でこっちはdivかも
+    $('#showServer').show();
+    
+    $("#result").append($(result));  //もしかしたら、<pのid>でこっちはdivかも
+    $('#showResult').show();
+ });    
+ });   
 });
