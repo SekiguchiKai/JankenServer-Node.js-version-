@@ -2,7 +2,9 @@
 <html>
   <head>    
     <meta charset="utf-8" /> 
+     <link rel="shortcut icon" href="favicon.ico">  
     <title>じゃんけんサーバ</title>
+      
   </head>
   <body>
       <p>じゃんけん勝負だ！好きな打ち手を選べ!!</p>
@@ -21,63 +23,6 @@
         <div>
         <input type="reset" value="やっぱ変える！">
         </div>
-    </form>
-         
-
-          <div>
-            <p><span id ="a"></span></p>
-        <p><span id ="showResult">結果をみる場合はここを押して!!</span></p>
-        <p><span id="showClient" style="display:none;">君の打ち手は</span><span id="clientUchite"></span></p> 
-
-        <p><span id="showServer" style="display:none;">サーバーの打ち手は</span><span id="severUchite"></span></p>
-
-        <p><span id="showResult" style="display:none;">この勝負</span><span id="result"></span></p>
-        
-         </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-//クリックされたら、
-$("#showResult").click(function () {
-
-  //JSONをGetする
-$.ajax({
-    type: "GET",
-    url: "/getResult",
-    dataType:"json",
-    success: function (data) {
-    var result = data;
-   window.alert(result)
-    }
-    /*
-    $("#clientUchite").append($( json.result))
-    */
-    
-    });
-});   
-
-    /*
-
-//HTMLを書き換える
-
-//ユーザーの打ち手を表示
-$("#showResult").click(function () {
-  //$("#clientUchite").append($(uchiteForm.radio.value));
-  $('#showClient').show();
-  
-
-//サーバ側の打ち手を表示
-    $("#severUchite").append($(result));  //もしかしたら、<pのid>でこっちはdivかも
-    $('#showServer').show();
-    
-    $("#result").append($(result));  //もしかしたら、<pのid>でこっちはdivかも
-    $('#showResult').show();
-    
- });
- 
- */
-
-</script>  
-
-      
+      </form>
   </body>
 </html>

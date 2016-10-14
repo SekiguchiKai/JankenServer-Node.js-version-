@@ -5,16 +5,18 @@ var server = http.createServer();
 var request = require('request');
 var qs = require('querystring');
 var path = require("path");
-var resultJson = "";
-var resultJson;
- //オブジェクト作成 クライアント、サーバの打ち手、勝負の結果を入れる
-var objResult = {};
-//
+var ejs = require('ejs');
+//クライアントの打ち手
+var clientUchite;
+//サーバの打ち手
+var serverUchite;
+//勝負の結果
+var result;
 server.on('request', function (req, res) {
     //Responseオブジェクトを作成し、その中に必要な処理を書いていき、条件によって対応させる
     var Response = {
-        //①HTMLを返す
-        "renderHTML": function (file, filename) {
+            //①HTMLを返す
+            "renderHTML": function (file, filename) {
                 //HTML読み込み
                 fs.readFile(__dirname + '/template/index.html', 'utf-8', function (err, data) {
                     //エラー処理
@@ -33,12 +35,10 @@ server.on('request', function (req, res) {
                         'content-Type': 'text/html'
                     });
                     res.write(data);
-                    //.
                     res.end("HTML file has already sent to browser");
                 });
-            },
-            //②クライアントからのPOSTリクエストを処理する(じゃんけんの結果決定->JSON生成)
-        "calcProcess": function (file, filename) {
+            }, //②クライアントからのPOSTリクエストを処理する(じゃんけんの結果決定->JSON生成)
+            "calcProcess": function (file, filename) {
                 var body = '';
                 //dataにリクエストのボディが届く
                 req.on('data', function (data) {
@@ -55,63 +55,83 @@ server.on('request', function (req, res) {
                         ・チョキ-1
                         ・パー=2
                         */
-                    var clientUchite = stContents;
+                    clientUchite = stContents;
                     //サーバ側の打ち手を決める
                     //乱数を発生させる
-                    var serverUchite = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+                    serverUchite = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
                     //アルゴリズム
-                   
-
-                    //オブジェクトにserverUchiteを追加
-                    objResult.obj_serverUchite = serverUchite;
-                    //オブジェクトにserverUchiteを追加
-                    objResult.obj_clientUchite = clientUchite;
-
-
                     if ((clientUchite == 0 && serverUchite === 1) || (clientUchite === 1 && serverUchite === 2) || (clientUchite === 2 && serverUchite === 0)) {
-                        objResult.result = "君の勝ちだ！";
+                        result = "君の勝ちだ！";
                     }
                     else if ((clientUchite === 1 && serverUchite === 0) || (clientUchite === 2 && serverUchite === 1) || (clientUchite === 0 && serverUchite === 2)) {
-                        objResult.result = "君の負けだ！";
+                        result = "君の負けだ！";
                     }
                     else if (clientUchite === serverUchite) {
-                        objResult.result = "引き分けだ！";
+                        result = "引き分けだ！";
                     }
-                    //実験で
-                    console.log(objResult);
-                    //JSONを作成する       
-                    resultJson = JSON.stringify(objResult);
-                    console.log(resultJson);
-
+                    
+                    //表示のための処理
+                    //クライアント
+                    switch (clientUchite) {
+                        case 0:
+                            clientUchite = "グー"
+                            break;
+                        case 1:
+                            clientUchite = "チョキ"
+                            break;
+                        case 2:
+                            clientUchite = "パー"
+                            break;
+                    }
+                    
+                    //表示のための処理
+                    //サーバ
+                    switch (serverUchite) {
+                        case 0:    
+                            serverUchite = "グー"
+                            break;
+                        case 1:
+                            serverUchite = "チョキ"
+                            break;
+                        case 2:
+                            serverUchite = "パー"
+                            break;
+                    }
+                    
+                    
+                    
+                    
+                    //結果の呼び込み
+                    var template = fs.readFileSync(__dirname + '/template/result.ejs', 'utf-8');
+                    var data = ejs.render(template, {
+                        clientUchite: clientUchite
+                        , serverUchite: serverUchite
+                        , result: result
+                    });
+                    res.writeHead(200, {
+                        'Content-Type': 'text/html'
+                    });
+                    res.write(data);
+                    res.end();
                 });
-            },
-            //③クライアントからのGETリクエストを処理する(JSONを返す)
-        "getResult": function (file, filename) {
-            //getでJSONを返す
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-            res.end(resultJson);
+            }
         }
-    }
-    
-    //URIで行う処理を分岐させる
-    //urlのpathをuriに代入
+        //Response
+        //URIで行う処理を分岐させる
+        //urlのpathをuriに代入
     var uri = url.parse(req.url).pathname;
     //cwd()：カレントディレクトリ、uri：path
-    var　filename = path.join(process.cwd(), uri);
-
-    if(uri == "/"){
-        Response["renderHTML"](); return;
-    }else if(uri == "/calcprocess"){
-        Response["calcProcess"](); return;
-    }else if(uri == "/getResult"){
-        Response["getResult"](); return;
+    var　 filename = path.join(process.cwd(), uri);
+    if (uri == "/") {
+        Response["renderHTML"]();
+        return;
     }
-    
+    else if (uri == "/calcprocess") {
+        Response["calcProcess"]();
+        return;
+    }
+    //戦隊
 });
-
 server.listen(8080); //指定されたポート(8080)でコネクションの受け入れを開始する
 console.log('Server running at http://localhost:8080/renderhtml'); //サーバが正常に起動していることを確認するため
-
 //http://localhost:8080/renderhtmlにする
