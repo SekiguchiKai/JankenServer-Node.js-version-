@@ -12,8 +12,12 @@ User of this game will fight with Server which automatically choices the hands o
 
 ## Requirement
 * HTML5
+
 * Node.js -3.10.9
+http://nodejs.jp/nodejs.org_ja/docs/v0.10/
+
 * ejs -3.10.9
+http://www.embeddedjs.com/
 
 ## Usage
 The usage of this application as follows.
