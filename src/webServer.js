@@ -135,5 +135,5 @@ server.on('request', function (req, res) {
   
 });
 server.listen(8080); // 指定されたポート(8080)でコネクションの受け入れを開始する
-console.log('Server running at http://localhost:8080/'); //サーバが正常に起動していることを確認するため
+console.log('Server running at http://localhost:8080/'); // サーバが正常に起動していることを確認するため
 // http://localhost:8080/renderhtmlにする
