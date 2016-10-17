@@ -18,7 +18,7 @@ The usage of this application as follows.
 
 1. You should start the local server.
 In this case, I use the Apache/2.4.18 (Unix) which is preinstalled on Mac (my OSX version is 10.11.4).
-To start the Appache, you should hit the command```sudo apachectl start```.
+To start the Appache local server, you should hit the command```sudo apachectl start```.
 
 2. You should start this application by hitting the command ```node webServer.js```.
   When you hit the ```node webServer.js``` command, you should be in ```JankenServer-Node.js-version- directory```.
