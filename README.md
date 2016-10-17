@@ -1,6 +1,5 @@
 # JankenServer-Node.js-version-
 
-Name JankenServer-Node.js-version-
 ====
 
 Overview
