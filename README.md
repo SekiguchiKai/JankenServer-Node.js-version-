@@ -2,7 +2,7 @@
 
 ====
 
-Overview
+##Overview
 This is the application which enables people to play the Janken game online.
 
 ## Description
