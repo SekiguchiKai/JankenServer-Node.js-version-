@@ -1,0 +1,27 @@
+{
+  "name": "jankenserver_nodever",
+  "version": "1.0.0",
+  "description": "====",
+  "main": "webServer.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SekiguchiKai/JankenServer-Node.js-version-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SekiguchiKai/JankenServer-Node.js-version-/issues"
+  },
+  "homepage": "https://github.com/SekiguchiKai/JankenServer-Node.js-version-#readme",
+  "dependencies": {
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "node": "0.0.0"
+  }
+}
