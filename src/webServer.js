@@ -6,23 +6,23 @@ var request = require('request');
 var qs = require('querystring');
 var path = require("path");
 var ejs = require('ejs');
-//クライアントの打ち手
+// クライアントの打ち手
 var clientUchite;
-//サーバの打ち手
+// サーバの打ち手
 var serverUchite;
-//勝負の結果
+// 勝負の結果
 var result;
 server.on('request', function (req, res) {
-    //Responseオブジェクトを作成し、その中に必要な処理を書いていき、条件によって対応させる
+    // Responseオブジェクトを作成し、その中に必要な処理を書いていき、条件によって対応させる
     var Response = {
-            //①HTMLを返す
+            // ①HTMLを返す
             "renderHTML": function (file, filename) {
-                //HTML読み込み
+                // HTML読み込み
                 fs.readFile(__dirname + '/template/index.html', 'utf-8', function (err, data) {
-                    //エラー処理
+                    // エラー処理
                     if (err) {
-                        //レスポンスヘッダを返す=>ステータスコード（e.g.200）みたいなやつ
-                        //引数,1:ステータスコード、2::ステータスメッセージ
+                        // レスポンスヘッダを返す=>ステータスコード（e.g.200）みたいなやつ
+                        // 引数,1:ステータスコード、2::ステータスメッセージ
                         res.writeHead(404, {
                             'Content-Type': 'text/plain'
                         });
@@ -30,23 +30,23 @@ server.on('request', function (req, res) {
                         res.write("Sorry we can not find this file");
                         return res.end("access Error");
                     }
-                    //正常に接続された時のパターン
+                    // 正常に接続された時のパターン
                     res.writeHead(200, {
                         'content-Type': 'text/html'
                     });
                     res.write(data);
                     res.end("HTML file has already sent to browser");
                 });
-            }, //②クライアントからのPOSTリクエストを処理する
+            }, // ②クライアントからのPOSTリクエストを処理する
             "calcProcess": function (file, filename) {
                 var body = '';
-                //dataにリクエストのボディが届く
+                // dataにリクエストのボディが届く
                 req.on('data', function (data) {
                     body += data;
                 });
                 req.on('end', function () {
                     var formContents = qs.parse(body)
-                        //オブジェクトの値（ここでいうpostの値を取り出す）
+                        // オブジェクトの値（ここでいうpostの値を取り出す）
                     var stContents = parseInt(formContents.C_uchite)
                     console.log(stContents+ 'POSTのリクエストが届きました');
                         //ここで、じゃんけんアルゴリズムを実装
@@ -56,12 +56,12 @@ server.on('request', function (req, res) {
                         ・パー=2
                         */
 
-                    //クライアントの打ち手を代入    
+                    // クライアントの打ち手を代入    
                     clientUchite = stContents;
-                    //サーバ側の打ち手を決める
-                    //乱数を発生させる
+                    // サーバ側の打ち手を決める
+                    // 乱数を発生させる
                     serverUchite = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
-                    //アルゴリズム
+                    // アルゴリズム
                     if ((clientUchite == 0 && serverUchite === 1) || (clientUchite === 1 && serverUchite === 2) || (clientUchite === 2 && serverUchite === 0)) {
                         result = "君の勝ちだ！";
                     }
@@ -72,8 +72,8 @@ server.on('request', function (req, res) {
                         result = "引き分けだ！";
                     }
                     
-                    //表示のための処理
-                    //クライアント
+                    // 表示のための処理
+                    // クライアント
                     switch (clientUchite) {
                         case 0:
                             clientUchite = "グー"
@@ -86,8 +86,8 @@ server.on('request', function (req, res) {
                             break;
                     }
                     
-                    //表示のための処理
-                    //サーバ
+                    // 表示のための処理
+                    // サーバ
                     switch (serverUchite) {
                         case 0:    
                             serverUchite = "グー"
@@ -103,7 +103,7 @@ server.on('request', function (req, res) {
                     
                     
                     
-                    //結果の呼び込み
+                    // 結果の呼び込み
                     var template = fs.readFileSync(__dirname + '/template/result.ejs', 'utf-8');
                     var data = ejs.render(template, {
                         clientUchite: clientUchite
@@ -118,11 +118,11 @@ server.on('request', function (req, res) {
                 });
             }
         }
-        //Response
-        //URIで行う処理を分岐させる
-        //urlのpathをuriに代入
+        // Response
+        // URIで行う処理を分岐させる
+        // urlのpathをuriに代入
     var uri = url.parse(req.url).pathname;
-    //cwd()：カレントディレクトリ、uri：path
+    // cwd()：カレントディレクトリ、uri：path
     var　 filename = path.join(process.cwd(), uri);
     if (uri == "/") {
         Response["renderHTML"]();
@@ -132,8 +132,8 @@ server.on('request', function (req, res) {
         Response["calcProcess"]();
         return;
     }
-    //戦隊
+  
 });
-server.listen(8080); //指定されたポート(8080)でコネクションの受け入れを開始する
+server.listen(8080); // 指定されたポート(8080)でコネクションの受け入れを開始する
 console.log('Server running at http://localhost:8080/'); //サーバが正常に起動していることを確認するため
-//http://localhost:8080/renderhtmlにする
+// http://localhost:8080/renderhtmlにする
