@@ -12,11 +12,15 @@ var clientUchite;
 var serverUchite;
 // 勝負の結果
 var result;
+//http.createServerがrequestされたら、
 server.on('request', function (req, res) {
     // Responseオブジェクトを作成し、その中に必要な処理を書いていき、条件によって対応させる
     var Response = {
             // ①HTMLを返す
             "renderHTML": function (file, filename) {
+                //"renderHTML"が呼び出されたことを確認するために
+                console.log("「renderHTML」が呼び出されました")
+
                 // HTML読み込み
                 fs.readFile(__dirname + '/template/index.html', 'utf-8', function (err, data) {
                     // エラー処理
@@ -39,6 +43,10 @@ server.on('request', function (req, res) {
                 });
             }, // ②クライアントからのPOSTリクエストを処理する
             "calcProcess": function (file, filename) {
+
+                //"calcProcess"が呼び出されたことを確認するために
+                console.log("「calcProcess」が呼び出されました")
+
                 var body = '';
                 // dataにリクエストのボディが届く
                 req.on('data', function (data) {
@@ -123,17 +131,28 @@ server.on('request', function (req, res) {
         // urlのpathをuriに代入
     var uri = url.parse(req.url).pathname;
     // cwd()：カレントディレクトリ、uri：path
-    var　 filename = path.join(process.cwd(), uri);
-    if (uri == "/") {
+    var filename = path.join(process.cwd(), uri);
+
+
+     if (uri === "/") {
         Response["renderHTML"]();
         return;
-    }
-    else if (uri == "/calcprocess") {
+    } else if (uri === "/calcprocess") {
         Response["calcProcess"]();
         return;
     }
   
 });
-server.listen(8080); // 指定されたポート(8080)でコネクションの受け入れを開始する
-console.log('Server running at http://localhost:8080/'); // サーバが正常に起動していることを確認するため
-// http://localhost:8080/にする
+
+// 指定されたポート(8080)でコネクションの受け入れを開始する
+//コールバック関数で、指定されたポート番号が正しいか判断
+
+server.listen(8080)
+console.log('Server running at http://localhost:8080/'); 
+
+
+
+
+
+
+
