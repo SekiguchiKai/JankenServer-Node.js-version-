@@ -1,26 +1,51 @@
-//webServer.jsのテストをBDDで行う
+// webServer.jsのテストをBDDで行う
 
-//shouldアサーションを利用できるようにする
-var should = require('should');
+// assertアサーションを利用できるようにする
+var chai = require('chai');
+var assert = chai.assert;
 
-//describe()は、複数のテストケースをまとめるためのもの
-descrbe('このテストの題名', function(){
-    
-    //urlの値によって正しい処理が行われるかのテスト
-    it('uri == "/"の場合は、renderHTM。uri == "/calcprocess"の場合は、calcProcess。それ以外の場合は"正しいURLを指定してください"', function(){ 
-        //アサーションを用いて、ここのテストを実施(should.メソッドという形で使われる)
-        //このアサーションテスト結果と期待値を比較し、真偽値判定する
+
+// webServer.jsをmoduleとして使用するために
+var jk = require('../src/janken.js');
+
+
+// describe()は、複数のテストケースをまとめるためのもの
+describe('じゃんけんアルゴリズム', function () {
+
+    it('「クライアント:グー、サーバ:チョキ」の場合は、クライアントの勝ち', function () {
+        assert.equal(jk.janken(0, 1), ("君の勝ちだ！", "グー", "チョキ"));
     });
 
-    it('テスト項目の期待する結果を説明する言葉', function(){ 
-        //アサーションを用いて、ここのテストを実施(should.メソッドという形で使われる)
-        //このアサーションテスト結果と期待値を比較し、真偽値判定する
+    it('クライアント:チョキ、サーバ:パー」の場合は、クライアントの勝ち', function () {
+        assert.equal(jk.janken(1, 2), ("君の勝ちだ！", "チョキ", "パー"));
     });
 
-    it('テスト項目の期待する結果を説明する言葉', function(){ 
-        //アサーションを用いて、ここのテストを実施(should.メソッドという形で使われる)
-        //このアサーションテスト結果と期待値を比較し、真偽値判定する
+    it('クライアント:パー、サーバ:グー」の場合は、クライアントの勝ち', function () {
+        assert.equal(jk.janken(2, 0), ("君の勝ちだ！", "パー", "グー"));
+    });
+
+    it('クライアント:チョキ、サーバ:グー」の場合は、サーバの勝ち', function () {
+        assert.equal(jk.janken(1, 0), ("君の負けだ！", "チョキ", "グー"));
+    });
+
+    it('クライアント:パー、サーバ:チョキ」の場合は、サーバの勝ち', function () {
+        assert.equal(jk.janken(2, 1), ("君の負けだ！", "パー", "チョキ"));
+    });
+
+    it('クライアント:グー、サーバ:パー」の場合は、サーバの勝ち', function () {
+        assert.equal(jk.janken(0, 2), ("君の負けだ！", "グー",　"パー"));
+    });
+
+    it('クライアント:グー、サーバ:グー」の場合は、引き分け', function () {
+        assert.equal(jk.janken(0, 0), ("renderHTML", "グー", "グー") );
+    });
+
+    it('クライアント:チョキ、サーバ:チョキ」の場合は、引き分け', function () {
+        assert.equal(jk.janken(1, 1), ("renderHTML", "チョキ", "チョキ"));
+    });
+
+    it('クライアント:パー、サーバ:パー」の場合は、引き分け', function () {
+        assert.equal(jk.janken(2, 2), ("renderHTML", "パー", "パー"));
     });
 
 });
-
