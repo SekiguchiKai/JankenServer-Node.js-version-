@@ -1,29 +1,22 @@
 {
-  "name": "jankenserver_nodever",
+  "name": "node_test",
   "version": "1.0.0",
-  "description": "====",
-  "main": "webServer.js",
+  "description": "",
+  "main": "janken.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SekiguchiKai/JankenServer-Node.js-version-.git"
+    "test": "mocha",
+    "start": "node ./src/webServer.js"
   },
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/SekiguchiKai/JankenServer-Node.js-version-/issues"
-  },
-  "homepage": "https://github.com/SekiguchiKai/JankenServer-Node.js-version-#readme",
-  "dependencies": {
-    "ejs": "^2.5.2"
-  },
+  "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.1.2"
+  },
+  "dependencies": {
+    "ejs": "^2.5.2"
   }
 }
